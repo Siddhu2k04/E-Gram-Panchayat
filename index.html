@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Gram Panchayat Anurabad</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+  <header>
+    <h1>🌿 E-Gram Panchayat Anurabad</h1>
+    <p>Serving the people of Anurabad with transparency and technology</p>
+  </header>
+
+
+<header class="menu-header">
+  <div class="logo">🌾 E-Gram Anurabad</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+
+  <nav class="dropdown-menu" id="menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="about.html">ℹ️ About</a>
+    <a href="notices.html">📢 Notices</a>
+    <a href="members.html">👥 Members</a>
+    <a href="gallery.html">🖼️ Gallery</a>
+    <a href="contact.html">📞 Contact</a>
+    <a href="admin/admin.html">🔐 Admin</a>
+  </nav>
+</header>
+
+
+
+
+
+  <div class="hero">
+    <h2>Welcome to Anurabad Village Portal</h2>
+    <p>Explore village news, updates, members, images, and more...</p>
+  </div>
+
+  <div class="section">
+    <h3>Recent Works</h3>
+    <ul>
+      <li>✅ Water tank maintenance completed</li>
+      <li>✅ Solar street lights installed</li>
+      <li>✅ New anganwadi center inaugurated</li>
+    </ul>
+  </div>
+
+ <div class="section">
+  <h3>📊 Village Stats (Pie Chart)</h3>
+  <div class="chart-container">
+    <canvas id="villagePieChart"></canvas>
+  </div>
+</div>
+
+  <!-- ✅ Visit Counter -->
+  <div class="view-counter-box">
+    <span class="view-label">👁️ Total Visits:</span>
+    <span id="visitCount" class="view-number">Loading...</span>
+  </div>
+
+  <footer>
+    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+  </footer>
+
+<script>
+  let count = localStorage.getItem("visitCount") || 0;
+  count++;
+  localStorage.setItem("visitCount", count);
+  document.getElementById("visitCount").textContent = count;
+</script>
+
+<script>
+  let chartDrawn = false;
+
+  function drawVillageChart() {
+    const ctxPie = document.getElementById('villagePieChart').getContext('2d');
+    new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: ['Population', 'Households', 'Land Area'],
+        datasets: [{
+          label: 'Village Stats',
+          data: [2345, 489, 110], // Update as needed
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(255, 99, 132, 0.7)'
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(255, 99, 132, 1)'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutBounce',
+          animateScale: true,
+          animateRotate: true
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 14,
+                family: 'Arial'
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  const chartObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !chartDrawn) {
+        chartDrawn = true;
+        drawVillageChart();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  chartObserver.observe(document.getElementById('villagePieChart'));
+</script>
+
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,597 @@
+/* style.css – Professional Design + Animation */
+
+:root {
+    --primary-color: #2e8b57;
+    --secondary-color: #1e4d2b;
+    --light-color: #f5f5f5;
+    --dark-color: #222;
+    --accent-color: #ffd700;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-color);
+    color: #333;
+    line-height: 1.6;
+    animation: fadeIn 1.5s ease;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 1.1em;
+    color: #e2e2e2;
+}
+
+nav {
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-shadow: var(--shadow);
+}
+
+nav a {
+    color: white;
+    padding: 14px 24px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+nav a:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.hero {
+    background: linear-gradient(to right, #e0ffe0, #f0fff0);
+    text-align: center;
+    padding: 60px 20px;
+    animation: slideDown 1s ease-in-out;
+}
+
+.hero h2 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.hero p {
+    font-size: 1.1em;
+    color: #444;
+}
+
+.section {
+    margin: 30px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: var(--shadow);
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.section h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    border-left: 5px solid var(--accent-color);
+    padding-left: 10px;
+}
+
+.section ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.section ul li::before {
+    content: "✔️ ";
+    color: var(--primary-color);
+}
+
+.section p {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+img {
+    border-radius: 10px;
+    margin: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+img:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    background-color: var(--dark-color);
+    color: #ccc;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    0% { transform: translateY(-50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav a {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .hero h2 {
+        font-size: 1.7em;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    img {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+
+/* Admin Login Section Styling */
+
+#loginSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px); /* Adjust based on header/footer height */
+    padding: 40px 20px;
+    flex-direction: column;
+}
+
+#loginForm {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+#loginForm label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#loginForm input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+#loginForm button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1em;
+    transition: background 0.3s;
+}
+
+#loginForm button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Admin Panel Content Section */
+#adminPanel .section {
+    margin-top: 20px;
+}
+
+/* Textarea Styling */
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
+    #loginSection {
+        min-height: unset;
+        padding: 20px;
+    }
+
+    #loginForm {
+        padding: 20px;
+    }
+}
+
+
+
+
+
+
+/* notice section css */
+
+.notice-list {
+  margin: 30px auto;
+  max-width: 700px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f9f9f9;
+  box-shadow: var(--shadow);
+}
+
+.notice-list a {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.notice-list a:hover {
+  color: var(--secondary-color);
+}
+
+
+
+
+
+
+
+
+/*view counter */
+
+.view-counter-box {
+  max-width: 300px;
+  margin: 30px auto;
+  padding: 15px 25px;
+  background: linear-gradient(145deg, #f5faff, #dfe9f3);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeInUp 1s ease;
+}
+
+.view-label {
+  font-size: 1.2rem;
+  color: #003366;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.view-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0077cc;
+}
+
+/* Smooth animation on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+
+
+
+
+.chart-container {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1rem;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#villagePieChart {
+  width: 100% !important;
+  height: auto !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*for navigation*/
+
+/* Header styling */
+.menu-header {
+  background-color: #2E7D32;
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Toggle button */
+.menu-toggle {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  width: 100%;
+  overflow: hidden;
+  max-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #1b5e20;
+  transition: max-height 0.5s ease;
+}
+
+.dropdown-menu a {
+  padding: 1rem;
+  text-decoration: none;
+  color: white;
+  border-top: 1px solid #388E3C;
+  transition: background 0.3s;
+}
+
+.dropdown-menu a:hover {
+  background: #4CAF50;
+}
+
+/* Show menu when active */
+.dropdown-menu.show {
+  max-height: 500px;
+}
+
+/* Desktop view */
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+  .dropdown-menu {
+    max-height: none;
+    flex-direction: row;
+    justify-content: flex-end;
+    background: none;
+  }
+  .dropdown-menu a {
+    border: none;
+    padding: 0 1rem;
+    color: white;
+  }
+  .dropdown-menu.show {
+    max-height: none;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 767px) {
+  .menu-toggle {
+    display: block;
+  }
+}
+
+
+
+
+
+
+
+
+
+/*for the member */
+/* Member Container Grid */
+.member-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Member Card Styling */
+.member-card {
+  background: #f1f8e9;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.member-card:hover {
+  transform: scale(1.03);
+}
+
+.member-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  border: 3px solid #aed581;
+  transition: transform 0.3s ease;
+}
+
+.member-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Modal Overlay */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.modal.active {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal Content */
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 90%;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  animation: scaleUp 0.3s ease;
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 4px solid #c5e1a5;
+}
+
+.modal-content h4 {
+  font-size: 1.2rem;
+  color: #33691e;
+  margin: 0.5rem 0;
+}
+
+.modal-content p {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.8rem;
+  color: #555;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Mobile Optimization */
+@media (max-width: 480px) {
+  .member-container {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .member-card img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .modal-content img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .modal-content h4 {
+    font-size: 1rem;
+  }
+
+  .modal-content p {
+    font-size: 0.85rem;
+  }
+
+  .close {
+    font-size: 1.5rem;
+    top: 8px;
+    right: 12px;
+  }
+}
