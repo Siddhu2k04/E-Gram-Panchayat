@@ -142,9 +142,10 @@
 </head>
 <body>
 
+<!-- ✅ Recent Works Section -->
 <div class="section">
   <h3>Recent Works</h3>
-  <div class="scroll-container">
+  <div class="scroll-container" id="workScrollContainer">
     <div class="work-card" onclick="showPopup('Water Tank Maintenance', 'The village water tank was cleaned and repaired on 15th June 2025 to ensure safe drinking water.')">
       <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Water Tank">
       <div class="work-title">✅ Water Tank Maintenance</div>
@@ -155,9 +156,14 @@
       <div class="work-title">✅ Solar Street Lights</div>
     </div>
 
-    <div class="work-card" onclick="showPopup('New Anganwadi Center', 'A new Anganwadi center was inaugurated to support early childhood care and education.')">
-      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Anganwadi Center">
-      <div class="work-title">✅ Anganwadi Center</div>
+    <div class="work-card" onclick="showPopup('School Renovation', 'Primary school building renovated with new classrooms and better furniture.')">
+      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="School Renovation">
+      <div class="work-title">✅ School Renovation</div>
+    </div>
+
+    <div class="work-card" onclick="showPopup('Road Repair', 'Main road in the village repaired and widened for smoother travel.')">
+      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Road Repair">
+      <div class="work-title">✅ Road Repair</div>
     </div>
   </div>
 </div>
@@ -171,7 +177,113 @@
   </div>
 </div>
 
+<!-- ✅ CSS -->
+<style>
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  .work-card {
+    min-width: 250px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .work-card:hover {
+    transform: scale(1.03);
+  }
+
+  .work-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .work-title {
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  .popup h4 {
+    margin-top: 0;
+  }
+
+  .close-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
+
+<!-- ✅ JS -->
 <script>
+  // Auto-scroll logic
+  const container = document.getElementById('workScrollContainer');
+  let scrollSpeed = 1;
+  let scrollInterval;
+
+  function startAutoScroll() {
+    scrollInterval = setInterval(() => {
+      container.scrollLeft += scrollSpeed;
+      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+        container.scrollLeft = 0; // Loop
+      }
+    }, 20);
+  }
+
+  function stopAutoScroll() {
+    clearInterval(scrollInterval);
+  }
+
+  // Start auto-scroll
+  window.addEventListener('load', startAutoScroll);
+  container.addEventListener('mouseenter', stopAutoScroll);
+  container.addEventListener('mouseleave', startAutoScroll);
+
+  // Popup logic
   function showPopup(title, content) {
     document.getElementById('popupTitle').textContent = title;
     document.getElementById('popupContent').textContent = content;
