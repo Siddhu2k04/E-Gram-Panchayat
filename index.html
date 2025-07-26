@@ -22,13 +22,14 @@
   <button class="menu-toggle" id="menu-btn">&#9776;</button>
 
   <nav class="dropdown-menu" id="menu">
-    <a href="index.html">🏠 Home</a>
-    <a href="about.html">ℹ️ About</a>
-    <a href="notices.html">📢 Notices</a>
-    <a href="members.html">👥 Members</a>
-    <a href="gallery.html">🖼️ Gallery</a>
-    <a href="contact.html">📞 Contact</a>
-    <a href="admin/admin.html">🔐 Admin</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="notices.html">Notices</a>
+    <a href="members.html">Members</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="complaint.html">Complaint</a>
+    <a href="admin/admin.html">Admin</a>
   </nav>
 </header>
 
@@ -41,14 +42,147 @@
     <p>Explore village news, updates, members, images, and more...</p>
   </div>
 
-  <div class="section">
-    <h3>Recent Works</h3>
-    <ul>
-      <li>✅ Water tank maintenance completed</li>
-      <li>✅ Solar street lights installed</li>
-      <li>✅ New anganwadi center inaugurated</li>
-    </ul>
+<head>
+  <meta charset="UTF-8">
+  <title>Recent Works</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .section {
+      padding: 20px;
+    }
+
+    .section h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding-bottom: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    .work-card {
+      min-width: 250px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .work-card:hover {
+      transform: scale(1.03);
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .work-title {
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Popup */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .popup h4 {
+      margin-top: 0;
+    }
+
+    .close-btn {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="section">
+  <h3>Recent Works</h3>
+  <div class="scroll-container">
+    <div class="work-card" onclick="showPopup('Water Tank Maintenance', 'The village water tank was cleaned and repaired on 15th June 2025 to ensure safe drinking water.')">
+      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Water Tank">
+      <div class="work-title">✅ Water Tank Maintenance</div>
+    </div>
+
+    <div class="work-card" onclick="showPopup('Solar Street Lights', '10 solar-powered street lights were installed across main village lanes to improve night-time visibility and save energy.')">
+      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Solar Lights">
+      <div class="work-title">✅ Solar Street Lights</div>
+    </div>
+
+    <div class="work-card" onclick="showPopup('New Anganwadi Center', 'A new Anganwadi center was inaugurated to support early childhood care and education.')">
+      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Anganwadi Center">
+      <div class="work-title">✅ Anganwadi Center</div>
+    </div>
   </div>
+</div>
+
+<!-- Popup HTML -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup">
+    <h4 id="popupTitle">Title</h4>
+    <p id="popupContent">Detailed description...</p>
+    <button class="close-btn" onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+<script>
+  function showPopup(title, content) {
+    document.getElementById('popupTitle').textContent = title;
+    document.getElementById('popupContent').textContent = content;
+    document.getElementById('popupOverlay').style.display = 'flex';
+  }
+
+  function closePopup() {
+    document.getElementById('popupOverlay').style.display = 'none';
+  }
+</script>
+</body>
 
  <div class="section">
   <h3>📊 Village Stats (Pie Chart)</h3>
@@ -57,22 +191,6 @@
   </div>
 </div>
 
-  <!-- ✅ Visit Counter -->
-  <div class="view-counter-box">
-    <span class="view-label">👁️ Total Visits:</span>
-    <span id="visitCount" class="view-number">Loading...</span>
-  </div>
-
-  <footer>
-    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
-  </footer>
-
-<script>
-  let count = localStorage.getItem("visitCount") || 0;
-  count++;
-  localStorage.setItem("visitCount", count);
-  document.getElementById("visitCount").textContent = count;
-</script>
 
 <script>
   let chartDrawn = false;
@@ -145,6 +263,36 @@
   });
 </script>
 
+<h2 style="text-align:center;">Our Village Map - Anurabad</h2>
 
+<div style="display: flex; justify-content: center; align-items: center;">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29818.118346785748!2d76.23303021795495!3d20.901663807673167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd9e8174d5e9c31%3A0xaa2677768bc78011!2sAnurabad%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1753508272600!5m2!1sen!2sin" 
+    width="600" 
+    height="450" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+  <!-- ✅ Visit Counter -->
+  <div class="view-counter-box">
+    <span class="view-label">👁️ Total Visits:</span>
+    <span id="visitCount" class="view-number">Loading...</span>
+  </div>
+
+<script>
+  let count = localStorage.getItem("visitCount") || 0;
+  count++;
+  localStorage.setItem("visitCount", count);
+  document.getElementById("visitCount").textContent = count;
+</script>
+
+ <footer>
+    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+  </footer>
+  
 </body>
 </html>

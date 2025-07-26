@@ -1,34 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Gallery - E-Gram Panchayat Anurabad</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Members - E-Gram Panchayat Anurabad</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header>
-    <h1>🖼️ Village Gallery</h1>
+  <h1>👥 Grampanchayat Members</h1>
 </header>
 
 <nav>
     <a href="index.html">Home</a>
+    <a href="about.html">About</a>
     <a href="notices.html">Notices</a>
     <a href="members.html">Members</a>
     <a href="gallery.html">Gallery</a>
     <a href="contact.html">Contact</a>
+    <a href="complaint.html">Complaint</a>
+    <a href="admin/admin.html">Admin</a>
 </nav>
 
 <div class="section">
-    <h3>Photos</h3>
-    <img src="images/streetlights.jpg" alt="Street Lights" width="300">
-    <img src="images/tank.jpg" alt="Water Tank" width="300">
-    <img src="images/program.jpg" alt="Village Program" width="300">
+  <h3>Recent Works in Village</h3>
+
+  <div class="gallery-item" onclick="openModal('images/streetlights.jpg', 'Solar Street Lights Installed')">
+    <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Street Lights" />
+    <div class="caption">Solar Street Lights Installed</div>
+  </div>
+
+  <div class="gallery-item" onclick="openModal('images/tank.jpg', 'Water Tank Maintenance')">
+    <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Water Tank" />
+    <div class="caption">Water Tank Maintenance</div>
+  </div>
+
+  <div class="gallery-item" onclick="openModal('images/program.jpg', 'Cultural Program in Village')">
+    <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Village Program" />
+    <div class="caption">Cultural Program in Village</div>
+  </div>
+</div>
+
+<!-- Modal Popup -->
+<div id="imageModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img id="modalImage" src="">
+    <p id="modalCaption" style="margin-top: 10px; font-size: 16px;"></p>
+  </div>
 </div>
 
 <footer>
-    &copy; 2025 E-Gram Panchayat Anurabad
+  &copy; 2025 E-Gram Panchayat Anurabad
 </footer>
+
+<script>
+  function openModal(imageSrc, caption) {
+    document.getElementById('modalImage').src = imageSrc;
+    document.getElementById('modalCaption').innerText = caption;
+    document.getElementById('imageModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('imageModal').style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
