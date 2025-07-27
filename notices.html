@@ -12,6 +12,10 @@
 <header>
   <h1 style="text-align:center;">E-Gram Panchayat Anurabad</h1>
 </header>
+<header class="menu-header">
+  <div class="logo">🌾 E-Gram Anurabad</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+
 
 <header class="menu-header">
   <div class="logo">Notices</div>
@@ -25,6 +29,7 @@
     <a href="contact.html">Contact</a>
     <a href="complaint.html">Complaint</a>
     <a href="admin/admin.html">Admin</a>
+=
   </nav>
 </header>
 
@@ -47,6 +52,17 @@ const btn = document.getElementById('menu-btn');
 </footer>
 
    
+
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
+
 
 </body>
 </html>

@@ -13,6 +13,10 @@
     <h1>E-Gram Panchayat Anurabad</h1>
     <p> </p>
   </header>
+<header class="menu-header">
+  <div class="logo">🌾 E-Gram Anurabad</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+
 
 
 <header class="menu-header">
@@ -30,6 +34,7 @@
     <a href="admin/admin.html">Admin</a>
   </nav>
 </header>
+
 
 
 
@@ -86,6 +91,16 @@
   <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
   </footer>
+
+  
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
 
 </body>
 </html>
