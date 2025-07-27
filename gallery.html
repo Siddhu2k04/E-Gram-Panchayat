@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Members - E-Gram Panchayat Anurabad</title>
+  <title>Gallery - E-Gram Panchayat Anurabad</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
+  
 </head>
 <body>
 
 <header>
-  <h1>👥 Grampanchayat Members</h1>
+  <h1>E-Gram Panchayat Anurabad</h1>
 </header>
 
-<nav>
+<header class="menu-header">
+  <div class="logo">Gallery</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+  <nav class="dropdown-menu" id="menu">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="notices.html">Notices</a>
@@ -20,33 +25,43 @@
     <a href="contact.html">Contact</a>
     <a href="complaint.html">Complaint</a>
     <a href="admin/admin.html">Admin</a>
-</nav>
+  </nav>
+</header>
 
-<div class="section">
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
+
+<section class="section">
   <h3>Recent Works in Village</h3>
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openModal('img/streetlights.jpg', 'Solar Street Lights Installed')">
+      <img src="img/school.jpeg" alt="Street Lights">
+      <div class="caption">Solar Street Lights Installed</div>
+    </div>
 
-  <div class="gallery-item" onclick="openModal('images/streetlights.jpg', 'Solar Street Lights Installed')">
-    <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Street Lights" />
-    <div class="caption">Solar Street Lights Installed</div>
+    <div class="gallery-item" onclick="openModal('img/watertank.jpg', 'Water Tank Maintenance')">
+      <img src="img/school.jpeg" alt="Water Tank">
+      <div class="caption">Water Tank Maintenance</div>
+    </div>
+
+    <div class="gallery-item" onclick="openModal('img/program.jpg', 'Cultural Program in Village')">
+      <img src="img/school.jpeg" alt="Village Program">
+      <div class="caption">Cultural Program in Village</div>
+    </div>
   </div>
+</section>
 
-  <div class="gallery-item" onclick="openModal('images/tank.jpg', 'Water Tank Maintenance')">
-    <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Water Tank" />
-    <div class="caption">Water Tank Maintenance</div>
-  </div>
-
-  <div class="gallery-item" onclick="openModal('images/program.jpg', 'Cultural Program in Village')">
-    <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Village Program" />
-    <div class="caption">Cultural Program in Village</div>
-  </div>
-</div>
-
-<!-- Modal Popup -->
-<div id="imageModal" class="modal">
-  <div class="modal-content">
+<!-- Modal -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
     <span class="close-btn" onclick="closeModal()">&times;</span>
-    <img id="modalImage" src="">
-    <p id="modalCaption" style="margin-top: 10px; font-size: 16px;"></p>
+    <img id="modalImage" src="" alt="Gallery Image">
+    <p id="modalCaption"></p>
   </div>
 </div>
 
@@ -54,11 +69,12 @@
   &copy; 2025 E-Gram Panchayat Anurabad
 </footer>
 
+<!-- Script -->
 <script>
   function openModal(imageSrc, caption) {
     document.getElementById('modalImage').src = imageSrc;
     document.getElementById('modalCaption').innerText = caption;
-    document.getElementById('imageModal').style.display = 'block';
+    document.getElementById('imageModal').style.display = 'flex';
   }
 
   function closeModal() {
@@ -68,3 +84,4 @@
 
 </body>
 </html>
+

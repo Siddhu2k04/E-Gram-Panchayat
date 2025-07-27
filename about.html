@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About - E-Gram Panchayat Anurabad</title>
    <link rel="stylesheet" href="css/style.css">
+   <script src="js/main.js"></script>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
-    <h1>🌿 About E-Gram Panchayat Anurabad</h1>
-    <p>Empowering our village through digital governance</p>
+    <h1>E-Gram Panchayat Anurabad</h1>
+    <p> </p>
   </header>
 
-  <!-- Navigation -->
-  <nav>
+
+<header class="menu-header">
+  <div class="logo">About</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+
+  <nav class="dropdown-menu" id="menu">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="notices.html">Notices</a>
@@ -25,6 +29,9 @@
     <a href="complaint.html">Complaint</a>
     <a href="admin/admin.html">Admin</a>
   </nav>
+</header>
+
+
 
   <!-- Vision Section -->
   <div class="section">
@@ -65,6 +72,15 @@
       <li>📍 Office Location & Contact Info</li>
     </ul>
   </div>
+
+  <script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
 
   <!-- Footer -->
   <footer>

@@ -4,14 +4,22 @@
   <meta charset="UTF-8">
   <title>Members - E-Gram Panchayat Anurabad</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js"></script>
 </head>
 <body>
 
-<header>
-  <h1>📞 Contact Us</h1>
-</header>
+  <header>
+    <h1>E-Gram Panchayat Anurabad</h1>
+    <p>Complaint</p>
+  </header>
 
-<nav>
+
+
+<header class="menu-header">
+  <div class="logo">Home</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+
+  <nav class="dropdown-menu" id="menu">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="notices.html">Notices</a>
@@ -20,60 +28,119 @@
     <a href="contact.html">Contact</a>
     <a href="complaint.html">Complaint</a>
     <a href="admin/admin.html">Admin</a>
-</nav>
+  </nav>
+</header>
 
+<script >
+const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
+
+<style>
+  
+/* Base styles — already well-structured */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+  margin: 0;
+}
+
+.form-container {
+  max-width: 600px;
+  background: #fff;
+  padding: 30px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input[type="file"] {
+  margin: 10px 0 20px;
+  font-size: 1rem;
+}
+
+button {
+  background: #28a745;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #218838;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .form-container h2 {
+    font-size: 1.4rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  button {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-container h2 {
+    font-size: 1.2rem;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+</style>
 
 <head>
   <meta charset="UTF-8">
   <title>File Complaint - E-Gram Panchayat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-    }
-
-    .form-container {
-      max-width: 600px;
-      background: #fff;
-      padding: 30px;
-      margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    input[type="file"] {
-      margin: 10px 0 20px;
-    }
-
-    button {
-      background: #28a745;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #218838;
-    }
-  </style>
+  
 </head>
 <body>
 
@@ -95,6 +162,9 @@
     <button type="submit">Submit Complaint</button>
   </form>
 </div>
+
+
+
 
 
 <footer>

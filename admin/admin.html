@@ -10,16 +10,36 @@
 </head>
 <body>
 
-  <header>
-    <h1>E Gram Panchayat Anurabad</h1>
-    <p>Admin Panel</p>
+    <header>
+    <h1>E-Gram Panchayat Anurabad</h1>
+    <p></p>
   </header>
 
-  <nav>
+
+<header class="menu-header">
+  <div class="logo">Admin</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
+
+  <nav class="dropdown-menu" id="menu">
     <a href="../index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="admin.html" class="active">Admin</a>
+    <a href="../about.html">About</a>
+    <a href="../notices.html">Notices</a>
+    <a href="../members.html">Members</a>
+    <a href="../gallery.html">Gallery</a>
+    <a href="../contact.html">Contact</a>
+    <a href="../complaint.html">Complaint</a>
+    <a href="../admin.html">Admin</a>
   </nav>
+</header>
+
+<script >
+const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
 
   <div class="section" id="loginSection">
     <h3>Admin Login</h3>
