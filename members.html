@@ -4,55 +4,73 @@
   <meta charset="UTF-8">
   <title>Members - E-Gram Panchayat Anurabad</title>
   <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="js/main.js"></script>
+  
 </head>
 <body>
 
 <header>
-  <h1>👥 Grampanchayat Members</h1>
+  <h1>E-Gram Panchayat Anurabad</h1>
 </header>
 <header class="menu-header">
   <div class="logo">🌾 E-Gram Anurabad</div>
   <button class="menu-toggle" id="menu-btn">&#9776;</button>
 
+
+<header class="menu-header">
+  <div class="logo">Body Members</div>
+  <button class="menu-toggle" id="menu-btn">&#9776;</button>
   <nav class="dropdown-menu" id="menu">
-    <a href="index.html">🏠 Home</a>
-    <a href="about.html">ℹ️ About</a>
-    <a href="notices.html">📢 Notices</a>
-    <a href="members.html">👥 Members</a>
-    <a href="gallery.html">🖼️ Gallery</a>
-    <a href="contact.html">📞 Contact</a>
-    <a href="admin/admin.html">🔐 Admin</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="notices.html">Notices</a>
+    <a href="members.html">Members</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="complaint.html">Complaint</a>
+    <a href="admin/admin.html">Admin</a>
   </nav>
 </header>
 
+<script>
+  // Menu toggle
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+  
+</script>
+
+
 <div class="member-container">
-  <!-- Member Card -->
   <div class="member-card" onclick="openModal('ramesh')">
-    <img src="img/ramesh.jpg" alt="Sarpanch">
+    <img src="img/siddhant.jpg" alt="Sarpanch">
     <h4>Shree Ramesh Patil</h4>
     <p>Sarpanch</p>
   </div>
 
   <div class="member-card" onclick="openModal('meena')">
-    <img src="img/meena.jpg" alt="Deputy Sarpanch">
+    <img src="img/siddhant.jpg" alt="Deputy Sarpanch">
     <h4>Smt. Meena Deshmukh</h4>
     <p>Deputy Sarpanch</p>
   </div>
 
   <div class="member-card" onclick="openModal('ajay')">
-    <img src="img/ajay.jpg" alt="Member">
+    <img src="img/siddhant.jpg" alt="Member">
     <h4>Ajay Pawar</h4>
     <p>Member</p>
   </div>
 
   <div class="member-card" onclick="openModal('rekha')">
-    <img src="img/rekha.jpg" alt="Member">
+    <img src="img/siddhant.jpg" alt="Member">
     <h4>Rekha Shinde</h4>
     <p>Member</p>
   </div>
 </div>
 
-<!-- Modal Popup for Details -->
+<!-- Modal -->
 <div id="member-modal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
@@ -69,15 +87,56 @@
 
 
 <script>
-  const btn = document.getElementById('menu-btn');
-  const menu = document.getElementById('menu');
 
-  btn.addEventListener('click', () => {
-    menu.classList.toggle('show');
-  });
+  // Modal data
+  const memberData = {
+    ramesh: {
+      name: "Shree Ramesh Patil",
+      role: "Sarpanch",
+      img: "img/siddhant.jpg",
+      info: "Ramesh Patil is the elected head of the Anurabad Grampanchayat."
+    },
+    meena: {
+      name: "Smt. Meena Deshmukh",
+      role: "Deputy Sarpanch",
+      img: "img/siddhant.jpg",
+      info: "Meena Deshmukh supports development and administrative decisions."
+    },
+    ajay: {
+      name: "Ajay Pawar",
+      role: "Member",
+      img: "img/siddhant.jpg",
+      info: "Ajay is an active member of the Grampanchayat committee."
+    },
+    rekha: {
+      name: "Rekha Shinde",
+      role: "Member",
+      img: "img/siddhant.jpg",
+      info: "Rekha participates in social and infrastructure programs."
+    }
+  };
+
+  function openModal(memberId) {
+    const data = memberData[memberId];
+    document.getElementById("modal-img").src = data.img;
+    document.getElementById("modal-name").textContent = data.name;
+    document.getElementById("modal-role").textContent = data.role;
+    document.getElementById("modal-info").textContent = data.info;
+    document.getElementById("member-modal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("member-modal").style.display = "none";
+  }
+
+  // Close modal when clicked outside
+  window.onclick = function(event) {
+    const modal = document.getElementById("member-modal");
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
 </script>
 
-
-<script src="js/members.js"></script>
 </body>
 </html>
