@@ -1025,6 +1025,47 @@ textarea {
 }
 
 
+/* translator*/
+#google_translate_element {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1001;
+  margin: 0;
+}
 
-/* Complaint */
+#google_translate_element select {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  color: #333;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+}
 
+/* ✅ Only scale down size for small screens */
+@media (max-width: 600px) {
+  #google_translate_element {
+    transform: scale(0.5);
+    transform-origin: top right;
+  }
+}
+
+/* ✅ Hide unwanted Google elements */
+.skiptranslate > iframe.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover,
+.goog-text-highlight {
+  display: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}

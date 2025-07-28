@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Google Translate</title>
+
+  <style>
+    #google_translate_element {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1001;
+      margin: 0;
+    }
+
+    #google_translate_element select {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: white;
+      color: #333;
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      max-width: 100%;
+    }
+
+    /* Responsive adjustment for small screens */
+    @media (max-width: 600px) {
+      #google_translate_element {
+        top: 10px;
+        right: 10px;
+        transform: scale(0.85); /* Optional: Slightly smaller */
+      }
+
+      #google_translate_element select {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+    }
+
+    /* Hide Google Translate iframe and tooltips */
+    .skiptranslate > iframe.skiptranslate {
+      display: none !important;
+    }
+
+    body {
+      top: 0 !important;
+    }
+
+    .goog-tooltip,
+    .goog-tooltip:hover,
+    .goog-text-highlight {
+      display: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Translate dropdown -->
+  <div id="google_translate_element"></div>
+
+  <!-- Your page content -->
+  <div style="padding-top: 80px;">
+    <h1>Hello World</h1>
+    <p>This is a test page for Marathi ↔ English translation.</p>
+  </div>
+
+  <!-- Google Translate script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,mr',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
