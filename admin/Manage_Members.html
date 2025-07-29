@@ -1,20 +1,28 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manage Members - Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/translator.js"></script>
+  <script src="../js/translator.js"></script>
+
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-     <div id="google_translate_element"></div>
 
-<header>
-  <h1>E-Gram Panchayat Anurabad</h1>
-</header>
+  <div id="google_translate_element"></div>
 
-  <!-- Header -->
+  <!-- Top Header -->
+  <header>
+    <h1>E-Gram Panchayat Anurabad</h1>
+  </header>
+
+  <!-- Navigation -->
   <header class="menu-header">
     <div class="logo">Manage Members</div>
     <button class="menu-toggle" id="menu-btn1">&#9776;</button>
@@ -27,9 +35,18 @@
     </nav>
   </header>
 
-  <!-- Manage Members Section -->
+  <!-- Menu Toggle Script -->
+  <script>
+    const menuBtn1 = document.getElementById('menu-btn1');
+    const menu1 = document.getElementById('menu1');
+    menuBtn1.addEventListener('click', () => {
+      menu1.classList.toggle('show');
+    });
+  </script>
+
+  <!-- Manage Members Form -->
   <div class="section">
-    <h3>Manage Members</h3>
+    <h3>➕ Add Panchayat Member</h3>
     <form id="memberForm">
       <label for="memberName">Name:</label>
       <input type="text" id="memberName" placeholder="Enter member name" required>
@@ -37,62 +54,87 @@
       <label for="memberPosition">Position:</label>
       <input type="text" id="memberPosition" placeholder="Enter member position" required>
 
-      <label for="memberPhoto">Photo:</label>
-      <input type="file" id="memberPhoto" accept="image/*" required>
+      <label for="memberPhoto">Photo (optional):</label>
+      <input type="file" id="memberPhoto" accept="image/*">
 
       <button type="submit">Add Member</button>
     </form>
 
-    <div id="memberList">
-      <!-- Members will appear here -->
+    <div id="memberList" class="member-container">
+      <!-- Dynamically added member cards -->
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- Firebase + ImgBB Script -->
   <script>
-    const menuBtn1 = document.getElementById('menu-btn1');
-    const menu1 = document.getElementById('menu1');
+    const firebaseConfig = {
+      apiKey: "AIzaSyC0Wj7L2WpxYFAk0_XXvj0Kxtz_DbqGZHE",
+      authDomain: "e-gram-panchayat-75f4a.firebaseapp.com",
+      projectId: "e-gram-panchayat-75f4a",
+      appId: "1:501188627743:web:c362fa66298786ee6e742a"
+    };
 
-    menuBtn1.addEventListener('click', () => {
-      menu1.classList.toggle('show');
-    });
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const imgbbKey = "8f40758b4628cd43936c08733eb01ef9"; // Replace with your actual key
 
-    // Handle Add Member Form
-    const memberForm = document.getElementById('memberForm');
-    const memberList = document.getElementById('memberList');
+    async function uploadToImgBB(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbKey}`, {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      return data.data.url;
+    }
 
-    memberForm.addEventListener('submit', function (e) {
+    document.getElementById("memberForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const name = document.getElementById("memberName").value.trim();
+      const position = document.getElementById("memberPosition").value.trim();
+      const file = document.getElementById("memberPhoto").files[0];
+      let imageUrl = "";
 
-      const name = document.getElementById('memberName').value;
-      const position = document.getElementById('memberPosition').value;
-      const photoInput = document.getElementById('memberPhoto');
-      const file = photoInput.files[0];
+      if (file) {
+        imageUrl = await uploadToImgBB(file);
+      }
 
-      if (!file) return;
+      await db.collection("members").add({
+        name,
+        position,
+        photo: imageUrl,
+        timestamp: firebase.firestore.Timestamp.now()
+      });
 
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const imageURL = event.target.result;
-
-        const card = document.createElement('div');
-        card.classList.add('member-card');
-        card.innerHTML = `
-          <img src="${imageURL}" alt="Member Photo">
-          <h4>${name}</h4>
-          <p>${position}</p>
-        `;
-
-        memberList.appendChild(card);
-        memberForm.reset();
-      };
-
-      reader.readAsDataURL(file);
+      alert("✅ Member added successfully!");
+      e.target.reset();
+      loadMembers(); // Refresh list
     });
+
+    async function loadMembers() {
+      const memberList = document.getElementById("memberList");
+      memberList.innerHTML = "";
+
+      const snapshot = await db.collection("members").orderBy("timestamp", "desc").get();
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const card = document.createElement("div");
+        card.className = "member-card";
+        card.innerHTML = `
+          ${data.photo ? `<img src="${data.photo}" alt="${data.name}" />` : ""}
+          <h4>${data.name}</h4>
+          <p>${data.position}</p>
+        `;
+        memberList.appendChild(card);
+      });
+    }
+
+    window.onload = loadMembers;
   </script>
 
-
-<footer>
+  <!-- Footer -->
+  <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
   </footer>
 
