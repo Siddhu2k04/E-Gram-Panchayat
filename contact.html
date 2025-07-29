@@ -2,70 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Members - E-Gram Panchayat Anurabad</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/translator.js"></script>
 
-
-  <style>
-    /* Responsive fix for mobile view */
-@media (max-width: 600px) {
-  .contact-section {
-    padding: 1rem;
-    font-size: 16px;
-  }
-
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-    word-wrap: break-word;
-  }
-
-  .contact-item i {
-    font-size: 18px;
-  }
-
-  .dropdown-menu {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.5rem;
-  }
-
-  .dropdown-menu a {
-    padding: 10px 0;
-    width: 100%;
-  }
-
-  .menu-toggle {
-    font-size: 24px;
-    padding: 10px;
-  }
-}
-
-  </style>
+  
 </head>
 <body>
 
 
  <div id="google_translate_element"></div>
 
-
-
-
-  <header>
-    <h1>E-Gram Panchayat Anurabad</h1>
-    <p></p>
-  </header>
-
+<header>
+  <h1>E-Gram Panchayat Anurabad</h1>
+</header>
 
 <header class="menu-header">
   <div class="logo">Contact</div>
   <button class="menu-toggle" id="menu-btn">&#9776;</button>
-
   <nav class="dropdown-menu" id="menu">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -78,6 +35,14 @@
   </nav>
 </header>
 
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+</script>
 
 
 <div class="section contact-section">
@@ -85,7 +50,7 @@
 
   <div class="contact-item">
     <i class="fas fa-map-marker-alt"></i>
-    <a href="https://www.google.com/maps?q=Anurabad,+Maharashtra" target="_blank">
+    <a href="https://maps.app.goo.gl/uPLbiHp41r4HAPjt5" target="_blank">
       Grampanchayat Office, Anurabad, Tal. Malkapur, Dist. Buldhana, Maharashtra
     </a>
   </div>
@@ -107,18 +72,9 @@
 </div>
 
 <footer>
-  &copy; 2025 E-Gram Panchayat Anurabad
-</footer>
+    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+  </footer>
 
-
-<script>
-  const btn = document.getElementById('menu-btn');
-  const menu = document.getElementById('menu');
-
-  btn.addEventListener('click', () => {
-    menu.classList.toggle('show');
-  });
-</script>
 
 
 </body>

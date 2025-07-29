@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin | E Gram Panchayat Anurabad</title>
    <link rel="stylesheet" href="../css/style.css">
+   <script src="../js/translator.js"></script>
 
   <script defer src="../js/main.js"></script>
   <script defer src="../js/translator.js"></script>
@@ -29,7 +30,7 @@
     <a href="../gallery.html">Gallery</a>
     <a href="../contact.html">Contact</a>
     <a href="../complaint.html">Complaint</a>
-    <a href="../admin.html">Admin</a>
+    <a href="admin.html">Admin</a>
   </nav>
 </header>
 
@@ -42,108 +43,42 @@ const btn = document.getElementById('menu-btn');
   });
 </script>
 
+
+
   <div class="section" id="loginSection">
     <h3>Admin Login</h3>
     <form id="loginForm">
-      <label>Username:</label><br>
-      <input type="text" id="username" required><br><br>
-      <label>Password:</label><br>
-      <input type="password" id="password" required><br><br>
+      <label>Username:</label>
+      <input type="text" id="username" required><br>
+      <label>Password:</label>
+      <input type="password" id="password" required><br>
       <button type="submit">Login</button>
     </form>
     <p id="loginError" style="color:red; display:none;">Invalid credentials.</p>
   </div>
 
-  <div class="section" id="adminPanel" style="display: none;">
-    <h3>Welcome, Admin</h3>
+  <script>
+  const loginForm = document.getElementById("loginForm");
+  const loginError = document.getElementById("loginError");
 
-    <!-- Upload Notice -->
-    <div class="section">
-      <h3>Upload Notice</h3>
-      <form>
-        <label for="noticeTitle">Notice Title:</label><br>
-        <input type="text" id="noticeTitle" placeholder="Enter notice title"><br><br>
-        <label for="noticeFile">Select PDF:</label><br>
-        <input type="file" id="noticeFile" accept=".pdf"><br><br>
-        <button type="submit">Upload Notice</button>
-      </form>
-    </div>
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    <!-- Upload Recent Work -->
-    <div class="section">
-      <h3>Upload Recent Work</h3>
-      <form>
-        <label for="workTitle">Work Title:</label><br>
-        <input type="text" id="workTitle" placeholder="Enter work name"><br><br>
-        <label for="workDesc">Description:</label><br>
-        <textarea id="workDesc" rows="4" placeholder="Write details about the work..."></textarea><br><br>
-        <label for="workImage">Select Photo:</label><br>
-        <input type="file" id="workImage" accept="image/*"><br><br>
-        <button type="submit">Upload Work</button>
-      </form>
-    </div>
+    // Change these to your actual login credentials
+    if (username === "admin" && password === "123") {
+      // ✅ Redirect to dashboard.html
+      window.location.href = "dashboard.html";
+    } else {
+      loginError.style.display = "block";
+    }
+  });
+</script>
 
-    <!-- Manage Members -->
-<div class="section">
-  <h3>Manage Members</h3>
-  <form id="memberForm">
-    <label for="memberName">Name:</label><br>
-    <input type="text" id="memberName" placeholder="Enter member name" required><br><br>
 
-    <label for="memberPosition">Position:</label><br>
-    <input type="text" id="memberPosition" placeholder="Enter member position" required><br><br>
-
-    <label for="memberPhoto">Photo:</label><br>
-    <input type="file" id="memberPhoto" accept="image/*" required><br><br>
-
-    <button type="submit">Add Member</button>
-  </form>
-
-  <div id="memberList">
-    <!-- Existing members will be displayed here -->
-  </div>
-</div>
-
-<!-- Complaints Section -->
-<div class="section" id="complaintsSection">
-  <h3>📩 View Complaints</h3>
-
-  <div class="complaint-card">
-    <strong>Name:</strong> Rahul Patil<br>
-    <strong>Email:</strong> rahul@example.com<br>
-    <strong>Description:</strong>
-    <p>There is a leakage in the water pipeline near the main road. Please look into it urgently.</p>
-    <strong>Image:</strong><br>
-    <img src="https://via.placeholder.com/200x120.png?text=Complaint+Image" alt="Complaint Image" width="200"><br>
-    <em>Submitted on: 24 July 2025, 10:32 AM</em>
-  </div>
-
-  <div class="complaint-card">
-    <strong>Name:</strong> Sneha Jadhav<br>
-    <strong>Email:</strong> sneha.jadhav@example.com<br>
-    <strong>Description:</strong>
-    <p>Streetlight near the temple is not working for the last 5 days.</p>
-    <strong>Image:</strong><br>
-    <img src="https://via.placeholder.com/200x120.png?text=Streetlight+Issue" alt="Streetlight Complaint" width="200"><br>
-    <em>Submitted on: 23 July 2025, 07:18 PM</em>
-  </div>
-
-  <div class="complaint-card">
-    <strong>Name:</strong> Vijay Shinde<br>
-    <strong>Email:</strong> vijay.shinde@example.com<br>
-    <strong>Description:</strong>
-    <p>Garbage collection has not been done in Ward 3 for over a week.</p>
-    <strong>Image:</strong><br>
-    <img src="https://via.placeholder.com/200x120.png?text=Garbage+Issue" alt="Garbage Complaint" width="200"><br>
-    <em>Submitted on: 22 July 2025, 04:45 PM</em>
-  </div>
-</div>
-
-  </div>
-
-  
   <footer>
-    <p>&copy; 2025 E Gram Panchayat Anurabad. All rights reserved.</p>
+    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
   </footer>
 
 </body>

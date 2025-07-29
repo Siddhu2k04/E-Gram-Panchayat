@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Members - Admin Panel</title>
+  <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/translator.js"></script>
+</head>
+<body>
+     <div id="google_translate_element"></div>
+
+<header>
+  <h1>E-Gram Panchayat Anurabad</h1>
+</header>
+
+  <!-- Header -->
+  <header class="menu-header">
+    <div class="logo">Manage Members</div>
+    <button class="menu-toggle" id="menu-btn1">&#9776;</button>
+    <nav class="dropdown-menu" id="menu1">
+      <a href="upload_notice.html">Upload Notice</a>
+      <a href="upload_recent_work.html">Upload Work</a>
+      <a href="manage_members.html">Manage Members</a>
+      <a href="view_complaints.html">View Complaints</a>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <!-- Manage Members Section -->
+  <div class="section">
+    <h3>Manage Members</h3>
+    <form id="memberForm">
+      <label for="memberName">Name:</label>
+      <input type="text" id="memberName" placeholder="Enter member name" required>
+
+      <label for="memberPosition">Position:</label>
+      <input type="text" id="memberPosition" placeholder="Enter member position" required>
+
+      <label for="memberPhoto">Photo:</label>
+      <input type="file" id="memberPhoto" accept="image/*" required>
+
+      <button type="submit">Add Member</button>
+    </form>
+
+    <div id="memberList">
+      <!-- Members will appear here -->
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const menuBtn1 = document.getElementById('menu-btn1');
+    const menu1 = document.getElementById('menu1');
+
+    menuBtn1.addEventListener('click', () => {
+      menu1.classList.toggle('show');
+    });
+
+    // Handle Add Member Form
+    const memberForm = document.getElementById('memberForm');
+    const memberList = document.getElementById('memberList');
+
+    memberForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('memberName').value;
+      const position = document.getElementById('memberPosition').value;
+      const photoInput = document.getElementById('memberPhoto');
+      const file = photoInput.files[0];
+
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const imageURL = event.target.result;
+
+        const card = document.createElement('div');
+        card.classList.add('member-card');
+        card.innerHTML = `
+          <img src="${imageURL}" alt="Member Photo">
+          <h4>${name}</h4>
+          <p>${position}</p>
+        `;
+
+        memberList.appendChild(card);
+        memberForm.reset();
+      };
+
+      reader.readAsDataURL(file);
+    });
+  </script>
+
+
+<footer>
+    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+  </footer>
+
+</body>
+</html>

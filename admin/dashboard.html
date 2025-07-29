@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/translator.js"></script>
+</head>
+<body>
+
+     <div id="google_translate_element"></div>
+
+<header>
+  <h1>E-Gram Panchayat Anurabad</h1>
+</header>
+
+  
+  <header class="menu-header">
+    <div class="logo">Admin Dashboard</div>
+    <button class="menu-toggle" id="menu-btn1">&#9776;</button>
+
+    <nav class="dropdown-menu" id="menu1">
+      <a href="upload_notice.html">Upload Notice</a>
+      <a href="Upload_Recent_Work.html">Upload Recent</a>
+      <a href="Manage_Members.html">Manage Member</a>
+      <a href="View_Complaints.html">View Complaints</a>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <script>
+    const menuBtn1 = document.getElementById('menu-btn1');
+    const menu1 = document.getElementById('menu1');
+
+    menuBtn1.addEventListener('click', () => {
+      menu1.classList.toggle('show');
+    });
+  </script>
+
+  <footer>
+    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+  </footer>
+
+</body>
+</html>

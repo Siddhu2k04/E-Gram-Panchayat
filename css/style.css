@@ -1069,3 +1069,122 @@ body {
   background: none !important;
   box-shadow: none !important;
 }
+
+
+
+
+/* complait page css */
+/* Form container styling */
+.form-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 90%;
+  margin: 40px auto; /* Centers it horizontally */
+  animation: fadeIn 0.6s ease-in-out;
+  box-sizing: border-box;
+}
+
+
+/* Heading */
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Inputs and textarea */
+input[type="text"],
+input[type="email"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+/* Submit button */
+button[type="submit"] {
+  margin-top: 20px;
+  padding: 12px 20px;
+  width: 100%;
+  background-color: #2e8b57;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #083416;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 20px;
+  }
+
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  label, input, textarea, button {
+    font-size: 0.95rem;
+  }
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/*view complaint*/
+
+    .complaint-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #fafafa;
+    }
+
+  
+    .complaint-card em {
+      display: block;
+      margin-top: 10px;
+      color: #555;
+      font-size: 0.9em;
+    }
