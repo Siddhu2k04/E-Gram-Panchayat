@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +8,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/translator.js"></script>
 
-  <!-- ✅ Firebase SDKs -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
 </head>
@@ -17,12 +16,11 @@
 
   <div id="google_translate_element"></div>
 
-  <!-- Top Header -->
+  <!-- Header -->
   <header>
     <h1>E-Gram Panchayat Anurabad</h1>
   </header>
 
-  <!-- Navigation -->
   <header class="menu-header">
     <div class="logo">Manage Members</div>
     <button class="menu-toggle" id="menu-btn1">&#9776;</button>
@@ -35,7 +33,6 @@
     </nav>
   </header>
 
-  <!-- Menu Toggle Script -->
   <script>
     const menuBtn1 = document.getElementById('menu-btn1');
     const menu1 = document.getElementById('menu1');
@@ -44,15 +41,18 @@
     });
   </script>
 
-  <!-- Manage Members Form -->
+  <!-- Member Form -->
   <div class="section">
     <h3>➕ Add Panchayat Member</h3>
     <form id="memberForm">
       <label for="memberName">Name:</label>
-      <input type="text" id="memberName" placeholder="Enter member name" required>
+      <input type="text" id="memberName" required>
 
       <label for="memberPosition">Position:</label>
-      <input type="text" id="memberPosition" placeholder="Enter member position" required>
+      <input type="text" id="memberPosition" required>
+
+      <label for="memberDescription">Description:</label>
+      <textarea id="memberDescription" placeholder="Enter member description..." required></textarea>
 
       <label for="memberPhoto">Photo (optional):</label>
       <input type="file" id="memberPhoto" accept="image/*">
@@ -60,12 +60,9 @@
       <button type="submit">Add Member</button>
     </form>
 
-    <div id="memberList" class="member-container">
-      <!-- Dynamically added member cards -->
-    </div>
+    <div id="memberList" class="member-container"></div>
   </div>
 
-  <!-- Firebase + ImgBB Script -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyC0Wj7L2WpxYFAk0_XXvj0Kxtz_DbqGZHE",
@@ -76,7 +73,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const imgbbKey = "8f40758b4628cd43936c08733eb01ef9"; // Replace with your actual key
+    const imgbbKey = "8f40758b4628cd43936c08733eb01ef9";
 
     async function uploadToImgBB(file) {
       const formData = new FormData();
@@ -93,6 +90,7 @@
       e.preventDefault();
       const name = document.getElementById("memberName").value.trim();
       const position = document.getElementById("memberPosition").value.trim();
+      const description = document.getElementById("memberDescription").value.trim();
       const file = document.getElementById("memberPhoto").files[0];
       let imageUrl = "";
 
@@ -103,14 +101,22 @@
       await db.collection("members").add({
         name,
         position,
+        description,
         photo: imageUrl,
         timestamp: firebase.firestore.Timestamp.now()
       });
 
       alert("✅ Member added successfully!");
       e.target.reset();
-      loadMembers(); // Refresh list
+      loadMembers();
     });
+
+    async function deleteMember(docId) {
+      if (confirm("Are you sure you want to delete this member?")) {
+        await db.collection("members").doc(docId).delete();
+        loadMembers();
+      }
+    }
 
     async function loadMembers() {
       const memberList = document.getElementById("memberList");
@@ -125,6 +131,8 @@
           ${data.photo ? `<img src="${data.photo}" alt="${data.name}" />` : ""}
           <h4>${data.name}</h4>
           <p>${data.position}</p>
+          <p><strong>Description:</strong> ${data.description || 'No description provided'}</p>
+          <button onclick="deleteMember('${doc.id}')">🗑️ Delete</button>
         `;
         memberList.appendChild(card);
       });
@@ -133,10 +141,8 @@
     window.onload = loadMembers;
   </script>
 
-  <!-- Footer -->
   <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
   </footer>
-
 </body>
 </html>

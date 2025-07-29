@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/translator.js"></script>
 
-  <!-- Firebase Compat SDK -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
 </head>
@@ -38,7 +38,6 @@
   <script>
     const menuBtn1 = document.getElementById('menu-btn1');
     const menu1 = document.getElementById('menu1');
-
     menuBtn1.addEventListener('click', () => {
       menu1.classList.toggle('show');
     });
@@ -47,7 +46,6 @@
   <!-- Complaints Section -->
   <div class="section" id="complaintsSection">
     <h3>📩 View Complaints</h3>
-    <!-- Complaints will load here dynamically -->
   </div>
 
   <footer>
@@ -55,7 +53,7 @@
   </footer>
 
   <script>
-    // ✅ Replace this with your actual Firebase config
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyC0Wj7L2WpxYFAk0_XXvj0Kxtz_DbqGZHE",
       authDomain: "e-gram-panchayat-75f4a.firebaseapp.com",
@@ -63,36 +61,49 @@
       appId: "1:501188627743:web:c362fa66298786ee6e742a"
     };
 
-    // ✅ Initialize Firebase App
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // ✅ Load Complaints from Firestore
-    db.collection("complaints")
-      .orderBy("timestamp", "desc")
-      .onSnapshot(snapshot => {
-        const section = document.getElementById("complaintsSection");
+    // Load Complaints
+    function loadComplaints() {
+      db.collection("complaints")
+        .orderBy("timestamp", "desc")
+        .onSnapshot(snapshot => {
+          const section = document.getElementById("complaintsSection");
+          section.innerHTML = "<h3>📩 View Complaints</h3>";
 
-        // Clear previous content (except heading)
-        section.innerHTML = "<h3>📩 View Complaints</h3>";
+          snapshot.forEach(doc => {
+            const c = doc.data();
+            const id = doc.id;
+            const time = c.timestamp?.toDate().toLocaleString() || "N/A";
 
-        snapshot.forEach(doc => {
-          const c = doc.data();
-          const time = c.timestamp?.toDate().toLocaleString() || "Time not available";
-
-          section.innerHTML += `
-            <div class="complaint-card">
+            const div = document.createElement("div");
+            div.className = "complaint-card";
+            div.innerHTML = `
               <strong>Name:</strong> ${c.name}<br>
               <strong>Email:</strong> ${c.email}<br>
               <strong>Description:</strong>
               <p>${c.description}</p>
-              ${c.imageUrl ? `<strong>Image:</strong><br><img src="${c.imageUrl}" alt="Complaint Image" width="200">` : ''}
-              <em>Submitted on: ${time}</em>
-            </div>
-          `;
+              ${c.imageUrl ? `<strong>Image:</strong><br><img src="${c.imageUrl}" width="200"><br>` : ''}
+              <em>Submitted on: ${time}</em><br><br>
+              <button onclick="deleteComplaint('${id}')">🗑️ Delete</button>
+            `;
+            section.appendChild(div);
+          });
         });
-      });
-  </script>
+    }
 
+    // Delete Complaint
+    function deleteComplaint(id) {
+      if (confirm("Are you sure you want to delete this complaint?")) {
+        db.collection("complaints").doc(id).delete()
+          .then(() => alert("Complaint deleted successfully"))
+          .catch(error => alert("Error deleting complaint: " + error));
+      }
+    }
+
+    loadComplaints();
+  </script>
 </body>
 </html>

@@ -5,81 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Upload Recent Work - Admin Panel</title>
   <link rel="stylesheet" href="../css/style.css">
-   <script src="../js/translator.js"></script>
+  <script src="../js/translator.js"></script>
 
-   <!-- Firebase Compat SDK -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
-  
 </head>
 <body>
 
-     <div id="google_translate_element"></div>
+<div id="google_translate_element"></div>
 
 <header>
   <h1>E-Gram Panchayat Anurabad</h1>
 </header>
 
-  <!-- Header -->
-  <header class="menu-header">
-    <div class="logo">Upload Recet Work</div>
-    <button class="menu-toggle" id="menu-btn1">&#9776;</button>
-    <nav class="dropdown-menu" id="menu1">
-      <a href="upload_notice.html">Upload Notice</a>
-      <a href="upload_recent_work.html">Upload Recet Work</a>
-      <a href="manage_members.html">Manage Members</a>
-      <a href="view_complaints.html">View Complaints</a>
-      <a href="../index.html">Home</a>
-    </nav>
-  </header>
+<header class="menu-header">
+  <div class="logo">Upload Recent Work</div>
+  <button class="menu-toggle" id="menu-btn1">&#9776;</button>
+  <nav class="dropdown-menu" id="menu1">
+    <a href="upload_notice.html">Upload Notice</a>
+    <a href="upload_recent_work.html">Upload Recent Work</a>
+    <a href="manage_members.html">Manage Members</a>
+    <a href="view_complaints.html">View Complaints</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
 
-  <!-- Upload Recent Work Section -->
-  <div class="section">
-    <h3>Upload Recent Work</h3>
-    <form id="recentWorkForm">
-  <label for="workTitle">Work Title:</label>
-  <input type="text" id="workTitle" placeholder="Enter work name">
+<div class="section">
+  <h3>Upload Recent Work</h3>
+  <form id="recentWorkForm">
+    <label for="workTitle">Work Title:</label>
+    <input type="text" id="workTitle" placeholder="Enter work name">
 
-  <label for="workDesc">Description:</label>
-  <textarea id="workDesc" rows="4" placeholder="Write details about the work..."></textarea>
+    <label for="workDesc">Description:</label>
+    <textarea id="workDesc" rows="4" placeholder="Write details about the work..."></textarea>
 
-  <label for="workImage">Select Photo:</label>
-  <input type="file" id="workImage" accept="image/*">
+    <label for="workImage">Select Photo:</label>
+    <input type="file" id="workImage" accept="image/*">
 
-  <button type="submit">Upload Work</button>
-</form>
+    <button type="submit">Upload Work</button>
+  </form>
+</div>
 
-  </div>
-
-  <!-- Menu Toggle Script -->
-  <script>
-    const menuBtn1 = document.getElementById('menu-btn1');
-    const menu1 = document.getElementById('menu1');
-
-    menuBtn1.addEventListener('click', () => {
-      menu1.classList.toggle('show');
-    });
-  </script>
+<div class="section">
+  <h3>Uploaded Recent Works</h3>
+  <div id="recentWorkList"></div>
+</div>
 
 <script>
+  const menuBtn1 = document.getElementById('menu-btn1');
+  const menu1 = document.getElementById('menu1');
+  menuBtn1.addEventListener('click', () => {
+    menu1.classList.toggle('show');
+  });
+
   const firebaseConfig = {
-  apiKey: "AIzaSyA8p-2sP6Qav5eyq_ONaima4iskhDWz9mw",
-  authDomain: "e-gram-panchayat-portal.firebaseapp.com",
-  databaseURL: "https://e-gram-panchayat-portal-default-rtdb.firebaseio.com",
-  projectId: "e-gram-panchayat-portal",
-  storageBucket: "e-gram-panchayat-portal.firebasestorage.app",
-  messagingSenderId: "625880846235",
-  appId: "1:625880846235:web:0823cf957adf01ceb85b3e"
-};
+    apiKey: "AIzaSyA8p-2sP6Qav5eyq_ONaima4iskhDWz9mw",
+    authDomain: "e-gram-panchayat-portal.firebaseapp.com",
+    databaseURL: "https://e-gram-panchayat-portal-default-rtdb.firebaseio.com",
+    projectId: "e-gram-panchayat-portal",
+    storageBucket: "e-gram-panchayat-portal.firebasestorage.app",
+    messagingSenderId: "625880846235",
+    appId: "1:625880846235:web:0823cf957adf01ceb85b3e"
+  };
 
-firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-
-  // 🔐 Your imgbb API key (for image upload)
   const imgbbAPIKey = "87a3c2ad5f8e9d4c548f82a8d2b8478f";
 
-  // 🔄 Function to upload image to ImgBB
   async function uploadToImgBB(file) {
     const formData = new FormData();
     formData.append("image", file);
@@ -91,49 +85,69 @@ firebase.initializeApp(firebaseConfig);
     return data.data.url;
   }
 
-  // 🚀 Upload Recent Work Handler
   document.getElementById("recentWorkForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const title = document.getElementById("workTitle").value.trim();
-  const description = document.getElementById("workDesc").value.trim();
-  const imageFile = document.getElementById("workImage").files[0];
+    const title = document.getElementById("workTitle").value.trim();
+    const description = document.getElementById("workDesc").value.trim();
+    const imageFile = document.getElementById("workImage").files[0];
 
-  if (!title || !description || !imageFile) {
-    alert("⚠️ Please fill all fields and select an image.");
-    return;
-  }
+    if (!title || !description || !imageFile) {
+      alert("Please fill all fields and select an image.");
+      return;
+    }
 
-  let imageUrl = "";
-  try {
-    imageUrl = await uploadToImgBB(imageFile);
-  } catch (error) {
-    alert("❌ Failed to upload image.");
-    return;
-  }
+    try {
+      const imageUrl = await uploadToImgBB(imageFile);
+      await db.collection("recetwork").add({
+        title,
+        description,
+        imageUrl,
+        timestamp: firebase.firestore.Timestamp.now()
+      });
+      alert("✅ Work uploaded successfully!");
+      e.target.reset();
+      loadRecentWorks();
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  });
 
-  try {
-    await db.collection("recetwork").add({
-      title,
-      description,
-      imageUrl,
-      timestamp: firebase.firestore.Timestamp.now()
+  async function loadRecentWorks() {
+    const listContainer = document.getElementById("recentWorkList");
+    listContainer.innerHTML = "";
+
+    const snapshot = await db.collection("recetwork").orderBy("timestamp", "desc").get();
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.className = "work-card";
+      div.innerHTML = `
+        <h4>${data.title}</h4>
+        <p>${data.description}</p>
+        <img src="${data.imageUrl}" alt="Work Image" style="max-width:200px; border:1px solid #ccc;"/>
+        <br>
+        <button onclick="deleteWork('${doc.id}')">🗑 Delete</button>
+        <hr>
+      `;
+      listContainer.appendChild(div);
     });
-    alert("✅ Recent work uploaded successfully!");
-    e.target.reset();
-  } catch (err) {
-    alert("❌ Firestore error: " + err.message);
   }
-});
 
+  async function deleteWork(id) {
+    if (confirm("Are you sure you want to delete this work?")) {
+      await db.collection("recetwork").doc(id).delete();
+      alert("✅ Deleted successfully!");
+      loadRecentWorks();
+    }
+  }
 
-
-
+  window.onload = loadRecentWorks;
 </script>
 
 <footer>
-    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
-  </footer>
+  &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+</footer>
 
 </body>
 </html>
