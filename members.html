@@ -3,18 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Members - E-Gram Panchayat Anurabad</title>
-  <link rel="stylesheet" href="css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script defer src="js/main.js"></script>
-  <script src="js/translator.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
 
+  <!-- Optional: Google Translate -->
+  <script src="js/translator.js"></script>
 </head>
 <body>
+
 <div id="google_translate_element"></div>
+
 <header>
   <h1>E-Gram Panchayat Anurabad</h1>
 </header>
-
 
 <header class="menu-header">
   <div class="logo">Body Members</div>
@@ -31,41 +36,18 @@
   </nav>
 </header>
 
+<!-- Responsive toggle -->
 <script>
-  // Menu toggle
   const btn = document.getElementById('menu-btn');
   const menu = document.getElementById('menu');
   btn.addEventListener('click', () => {
     menu.classList.toggle('show');
   });
-  
 </script>
 
-
-<div class="member-container">
-  <div class="member-card" onclick="openModal('ramesh')">
-    <img src="img/siddhant.jpg" alt="Sarpanch">
-    <h4>Shree Ramesh Patil</h4>
-    <p>Sarpanch</p>
-  </div>
-
-  <div class="member-card" onclick="openModal('meena')">
-    <img src="img/siddhant.jpg" alt="Deputy Sarpanch">
-    <h4>Smt. Meena Deshmukh</h4>
-    <p>Deputy Sarpanch</p>
-  </div>
-
-  <div class="member-card" onclick="openModal('ajay')">
-    <img src="img/siddhant.jpg" alt="Member">
-    <h4>Ajay Pawar</h4>
-    <p>Member</p>
-  </div>
-
-  <div class="member-card" onclick="openModal('rekha')">
-    <img src="img/siddhant.jpg" alt="Member">
-    <h4>Rekha Shinde</h4>
-    <p>Member</p>
-  </div>
+<!-- Members Grid -->
+<div class="member-container" id="membersContainer">
+  <!-- Firebase Data Will Be Injected Here -->
 </div>
 
 <!-- Modal -->
@@ -80,45 +62,44 @@
 </div>
 
 <footer>
-    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
-  </footer>
+  &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+</footer>
 
+<!-- Firebase Initialization + Dynamic Load -->
 <script>
-
-  // Modal data
-  const memberData = {
-    ramesh: {
-      name: "Shree Ramesh Patil",
-      role: "Sarpanch",
-      img: "img/siddhant.jpg",
-      info: "Ramesh Patil is the elected head of the Anurabad Grampanchayat."
-    },
-    meena: {
-      name: "Smt. Meena Deshmukh",
-      role: "Deputy Sarpanch",
-      img: "img/siddhant.jpg",
-      info: "Meena Deshmukh supports development and administrative decisions."
-    },
-    ajay: {
-      name: "Ajay Pawar",
-      role: "Member",
-      img: "img/siddhant.jpg",
-      info: "Ajay is an active member of the Grampanchayat committee."
-    },
-    rekha: {
-      name: "Rekha Shinde",
-      role: "Member",
-      img: "img/siddhant.jpg",
-      info: "Rekha participates in social and infrastructure programs."
-    }
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0Wj7L2WpxYFAk0_XXvj0Kxtz_DbqGZHE",
+    authDomain: "e-gram-panchayat-75f4a.firebaseapp.com",
+    projectId: "e-gram-panchayat-75f4a",
+    appId: "1:501188627743:web:c362fa66298786ee6e742a"
   };
 
-  function openModal(memberId) {
-    const data = memberData[memberId];
-    document.getElementById("modal-img").src = data.img;
-    document.getElementById("modal-name").textContent = data.name;
-    document.getElementById("modal-role").textContent = data.role;
-    document.getElementById("modal-info").textContent = data.info;
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const container = document.getElementById("membersContainer");
+
+  db.collection("members").orderBy("timestamp", "desc").get().then(snapshot => {
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const card = document.createElement("div");
+      card.className = "member-card";
+      card.onclick = () => openModal(data);
+      card.innerHTML = `
+        ${data.photo ? `<img src="${data.photo}" alt="${data.name}">` : ""}
+        <h4>${data.name}</h4>
+        <p>${data.position}</p>
+      `;
+      container.appendChild(card);
+    });
+  });
+
+  // Modal logic
+  function openModal(data) {
+    document.getElementById("modal-img").src = data.photo || "";
+    document.getElementById("modal-name").textContent = data.name || "Unknown";
+    document.getElementById("modal-role").textContent = data.position || "";
+    document.getElementById("modal-info").textContent = data.info || "No additional info provided.";
     document.getElementById("member-modal").style.display = "block";
   }
 
@@ -126,7 +107,6 @@
     document.getElementById("member-modal").style.display = "none";
   }
 
-  // Close modal when clicked outside
   window.onclick = function(event) {
     const modal = document.getElementById("member-modal");
     if (event.target === modal) {
