@@ -5,57 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Upload Notice - Admin Panel</title>
   <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/translator.js"></script>
+  <script src="../js/translator.js"></script>
 </head>
 <body>
 
-     <div id="google_translate_element"></div>
+<div id="google_translate_element"></div>
 
 <header>
   <h1>E-Gram Panchayat Anurabad</h1>
 </header>
 
-  <!-- Header -->
-  <header class="menu-header">
-    <div class="logo">Upload Notice</div>
-    <button class="menu-toggle" id="menu-btn1">&#9776;</button>
-    <nav class="dropdown-menu" id="menu1">
-      <a href="upload_notice.html">Upload Notice</a>
-      <a href="upload_recent_work.html">Upload Work</a>
-      <a href="manage_members.html">Manage Members</a>
-      <a href="view_complaints.html">View Complaints</a>
-      <a href="../index.html">Home</a>
-    </nav>
-  </header>
+<header class="menu-header">
+  <div class="logo">Upload Notice</div>
+  <button class="menu-toggle" id="menu-btn1">&#9776;</button>
+  <nav class="dropdown-menu" id="menu1">
+    <a href="upload_notice.html">Upload Notice</a>
+    <a href="upload_recent_work.html">Upload Work</a>
+    <a href="manage_members.html">Manage Members</a>
+    <a href="view_complaints.html">View Complaints</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
 
-  <!-- Upload Notice Section -->
-  <div class="section">
-    <h3>Upload Notice</h3>
-    <form>
-      <label for="noticeTitle">Notice Title:</label>
-      <input type="text" id="noticeTitle" placeholder="Enter notice title"><br>
+<div class="section">
+  <h3>Upload Notice</h3>
+  <form>
+    <label for="noticeTitle">Notice Title:</label>
+    <input type="text" id="noticeTitle" placeholder="Enter notice title"><br>
 
-      <label for="noticeFile">Select PDF:</label>
-      <input type="file" id="noticeFile" accept=".pdf"><br>
+    <label for="noticeFile">Select PDF:</label>
+    <input type="file" id="noticeFile" accept=".pdf"><br>
 
-      <button type="submit">Upload Notice</button>
-    </form>
-  </div>
+    <button type="submit">Upload Notice</button>
+  </form>
+</div>
 
-  <!-- Script to handle dropdown toggle -->
-  <script>
-    const menuBtn1 = document.getElementById('menu-btn1');
-    const menu1 = document.getElementById('menu1');
+<script>
+  const menuBtn1 = document.getElementById('menu-btn1');
+  const menu1 = document.getElementById('menu1');
+  menuBtn1.addEventListener('click', () => {
+    menu1.classList.toggle('show');
+  });
+</script>
 
-    menuBtn1.addEventListener('click', () => {
-      menu1.classList.toggle('show');
-    });
-  </script>
+<!-- Inline Firebase and Upload Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0Wj7L2WpxYFAk0_XXvj0Kxtz_DbqGZHE",
+    authDomain: "e-gram-panchayat-75f4a.firebaseapp.com",
+    projectId: "e-gram-panchayat-75f4a",
+    storageBucket: "e-gram-panchayat-75f4a.firebasestorage.app",
+    messagingSenderId: "501188627743",
+    appId: "1:501188627743:web:c362fa66298786ee6e742a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("noticeTitle").value.trim();
+    const fileInput = document.getElementById("noticeFile");
+    const file = fileInput.files[0];
+
+    if (!title || !file) {
+      alert("Please provide both title and PDF.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const base64PDF = reader.result;
+
+      await addDoc(collection(db, "notices"), {
+        title: title,
+        pdf: base64PDF,
+        timestamp: new Date()
+      });
+
+      alert("Notice uploaded successfully!");
+      form.reset();
+    };
+
+    reader.readAsDataURL(file);
+  });
+</script>
 
 <footer>
-    &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
-  </footer>
+  &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
+</footer>
 
 </body>
 </html>
