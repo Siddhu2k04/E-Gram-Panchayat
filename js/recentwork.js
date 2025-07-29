@@ -1,24 +1,34 @@
 window.addEventListener('load', function () {
   const container = document.getElementById('workScrollContainer');
-  let scrollSpeed = 1;
-  let scrollInterval;
+  let scrollSpeed = 0.5; // Smaller value for smoother motion
+  let direction = 1;
+  let animationFrame;
+
+  function autoScroll() {
+    container.scrollLeft += scrollSpeed * direction;
+
+    // Reverse at edges
+    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+      direction = -1; // Scroll left
+    } else if (container.scrollLeft <= 0) {
+      direction = 1; // Scroll right
+    }
+
+    animationFrame = requestAnimationFrame(autoScroll);
+  }
 
   function startAutoScroll() {
-    scrollInterval = setInterval(() => {
-      container.scrollLeft += scrollSpeed;
-      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
-        container.scrollLeft = 0; // Loop
-      }
-    }, 20);
+    animationFrame = requestAnimationFrame(autoScroll);
   }
 
   function stopAutoScroll() {
-    clearInterval(scrollInterval);
+    cancelAnimationFrame(animationFrame);
   }
 
-  // Start auto-scroll
+  // Start on load
   startAutoScroll();
 
+  // Pause on hover
   container.addEventListener('mouseenter', stopAutoScroll);
   container.addEventListener('mouseleave', startAutoScroll);
 
@@ -33,7 +43,6 @@ window.addEventListener('load', function () {
     document.getElementById('popupOverlay').style.display = 'none';
   }
 
-  // Optional: make showPopup/closePopup global
   window.showPopup = showPopup;
   window.closePopup = closePopup;
 });

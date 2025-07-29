@@ -11,8 +11,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="js/translator.js"></script>
 
+ <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
+  
 
 </head>
 <body>
@@ -60,39 +65,151 @@ const btn = document.getElementById('menu-btn');
 
 
 <!-- ✅ Recent Works Section -->
+<!-- ✅ Recent Works Section -->
 <div class="section">
   <h3>Recent Works</h3>
-  <div class="scroll-container" id="workScrollContainer">
-    <div class="work-card" onclick="showPopup('Water Tank Maintenance', 'The village water tank was cleaned and repaired on 15th June 2025 to ensure safe drinking water.')">
-      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Water Tank">
-      <div class="work-title">✅ Water Tank Maintenance</div>
-    </div>
-
-    <div class="work-card" onclick="showPopup('Solar Street Lights', '10 solar-powered street lights were installed across main village lanes to improve night-time visibility and save energy.')">
-      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Solar Lights">
-      <div class="work-title">✅ Solar Street Lights</div>
-    </div>
-
-    <div class="work-card" onclick="showPopup('School Renovation', 'Primary school building renovated with new classrooms and better furniture.')">
-      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="School Renovation">
-      <div class="work-title">✅ School Renovation</div>
-    </div>
-
-    <div class="work-card" onclick="showPopup('Road Repair', 'Main road in the village repaired and widened for smoother travel.')">
-      <img src="https://ts2.mm.bing.net/th?id=OIP.O4xt2JXPSnt1BcoOIg4bnQHaEK&pid=15.1" alt="Road Repair">
-      <div class="work-title">✅ Road Repair</div>
-    </div>
-  </div>
+  <div class="scroll-container" id="workScrollContainer"></div>
 </div>
+
+<style>
+  #workScrollContainer {
+  scroll-behavior: smooth;
+}
+
+</style>
 
 <!-- Popup HTML -->
-<div class="popup-overlay" id="popupOverlay">
-  <div class="popup">
-    <h4 id="popupTitle">Title</h4>
-    <p id="popupContent">Detailed description...</p>
-    <button class="close-btn" onclick="closePopup()">Close</button>
-  </div>
+<!-- 🔍 Modal for Popup -->
+<div id="imageModal" class="modal" style="display: none;">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modalImage">
+  <div id="modalCaption"></div>
 </div>
+<style>
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .work-card {
+    min-width: 250px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .work-card:hover {
+    transform: scale(1.03);
+  }
+
+  .work-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .work-title {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: #f2f2f2;
+  }
+
+  .modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    flex-direction: column;
+  }
+
+  .modal-content {
+    max-width: 90%;
+    max-height: 70%;
+    border-radius: 8px;
+  }
+
+  .close {
+    position: absolute;
+    top: 20px; right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+  }
+
+  #modalCaption {
+    color: white;
+    margin-top: 10px;
+    text-align: center;
+    white-space: pre-wrap;
+    max-width: 90%;
+  }
+</style>
+
+
+<script>
+  // 🧠 Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyA8p-2sP6Qav5eyq_ONaima4iskhDWz9mw",
+    authDomain: "e-gram-panchayat-portal.firebaseapp.com",
+    databaseURL: "https://e-gram-panchayat-portal-default-rtdb.firebaseio.com",
+    projectId: "e-gram-panchayat-portal",
+    storageBucket: "e-gram-panchayat-portal.appspot.com",
+    messagingSenderId: "625880846235",
+    appId: "1:625880846235:web:0823cf957adf01ceb85b3e"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // 📥 Load Recent Works from Firestore
+  db.collection("recetwork")
+    .orderBy("timestamp", "desc")
+    .onSnapshot(snapshot => {
+      const container = document.getElementById("workScrollContainer");
+      container.innerHTML = "";
+
+      snapshot.forEach(doc => {
+        const work = doc.data();
+        const title = work.title || "Untitled Work";
+        const imageUrl = work.imageUrl || "img/placeholder.jpg";
+        const description = work.description || "No description available";
+
+        container.innerHTML += `
+          <div class="work-card" onclick="openModal('${imageUrl}', '${title}', \`${description}\`)">
+            <img src="${imageUrl}" alt="${title}">
+            <div class="work-title">✅ ${title}</div>
+          </div>
+        `;
+      });
+    });
+
+  // 🔍 Modal Popup
+  function openModal(imageUrl, title, description) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const modalCaption = document.getElementById("modalCaption");
+
+    modal.style.display = "flex";
+    modalImg.src = imageUrl;
+    modalCaption.innerHTML = `<strong>${title}</strong><br>${description}`;
+  }
+
+  function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+  }
+</script>
+
+
 
 
 

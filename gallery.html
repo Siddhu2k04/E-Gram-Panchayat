@@ -8,7 +8,9 @@
   <script src="js/translator.js"></script>
   <script src="js/main.js"></script>
 
-
+ <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
   
 </head>
 <body>
@@ -41,51 +43,163 @@
   });
 </script>
 
+ 
+
 <section class="section">
   <h3>Recent Works in Village</h3>
-  <div class="gallery-grid">
-    <div class="gallery-item" onclick="openModal('img/streetlights.jpg', 'Solar Street Lights Installed')">
-      <img src="img/school.jpeg" alt="Street Lights">
-      <div class="caption">Solar Street Lights Installed</div>
-    </div>
-
-    <div class="gallery-item" onclick="openModal('img/watertank.jpg', 'Water Tank Maintenance')">
-      <img src="img/school.jpeg" alt="Water Tank">
-      <div class="caption">Water Tank Maintenance</div>
-    </div>
-
-
-    <div class="gallery-item" onclick="openModal('img/program.jpg', 'Cultural Program in Village')">
-      <img src="img/school.jpeg" alt="Village Program">
-      <div class="caption">Cultural Program in Village</div>
-    </div>
-  </div>
+  <div class="gallery-grid"></div>
 </section>
 
+
 <!-- Modal -->
-<div id="imageModal" class="modal" onclick="closeModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <img id="modalImage" src="" alt="Gallery Image">
-    <p id="modalCaption"></p>
-  </div>
+<!-- Modal structure -->
+<div id="imageModal" class="modal" style="display: none;">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modalImage">
+  <div id="modalCaption"></div>
 </div>
 
 
 
 
+
+
 <!-- Script -->
-<script>
-  function openModal(imageSrc, caption) {
-    document.getElementById('modalImage').src = imageSrc;
-    document.getElementById('modalCaption').innerText = caption;
-    document.getElementById('imageModal').style.display = 'flex';
+<style>
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px;
   }
 
-  function closeModal() {
-    document.getElementById('imageModal').style.display = 'none';
+  .work-card {
+    min-width: 250px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s;
   }
+
+  .work-card:hover {
+    transform: scale(1.03);
+  }
+
+  .work-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .work-title {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: #f2f2f2;
+  }
+
+  .modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    flex-direction: column;
+  }
+
+  .modal-content {
+    max-width: 90%;
+    max-height: 70%;
+    border-radius: 8px;
+  }
+
+  .close {
+    position: absolute;
+    top: 20px; right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+  }
+
+  #modalCaption {
+    color: white;
+    margin-top: 10px;
+    text-align: center;
+    white-space: pre-wrap;
+    max-width: 90%;
+  }
+</style>
+
+<script>
+  function openModal(imgUrl, captionText) {
+  const modal = document.getElementById("imageModal");
+  document.getElementById("modalImage").src = imgUrl;
+  document.getElementById("modalCaption").innerText = captionText;
+  modal.style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
+
 </script>
+
+
+
+<script>
+  const firebaseConfig = {
+  apiKey: "AIzaSyA8p-2sP6Qav5eyq_ONaima4iskhDWz9mw",
+  authDomain: "e-gram-panchayat-portal.firebaseapp.com",
+  databaseURL: "https://e-gram-panchayat-portal-default-rtdb.firebaseio.com",
+  projectId: "e-gram-panchayat-portal",
+  storageBucket: "e-gram-panchayat-portal.firebasestorage.app",
+  messagingSenderId: "625880846235",
+  appId: "1:625880846235:web:0823cf957adf01ceb85b3e"
+};
+
+firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+
+  // 🔐 Your imgbb API key (for image upload)
+  const imgbbAPIKey = "87a3c2ad5f8e9d4c548f82a8d2b8478f";
+
+ 
+  
+  // 👇 Load Recent Works from Firestore and display in gallery
+  db.collection("recetwork")
+    .orderBy("timestamp", "desc")
+    .onSnapshot(snapshot => {
+      const gallery = document.querySelector(".gallery-grid");
+      gallery.innerHTML = ""; // Clear previous content
+
+      snapshot.forEach(doc => {
+        const work = doc.data();
+        const title = work.title || "Untitled Work";
+        const imageUrl = work.imageUrl || "img/placeholder.jpg";
+         const description = work.description || "No description available";
+          const time = work.timestamp?.toDate().toLocaleString() || "";
+
+        gallery.innerHTML += `
+          <div class="gallery-item" onclick="openModal('${imageUrl}', '${title}')">
+            <img src="${imageUrl}" alt="${title}">
+            <div class="caption">${title}</div>
+          </div>
+        `;
+      });
+    });
+</script>
+
+
+
+
+
+
 
 <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.

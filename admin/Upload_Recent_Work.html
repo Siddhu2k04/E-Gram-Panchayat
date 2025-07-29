@@ -6,6 +6,11 @@
   <title>Upload Recent Work - Admin Panel</title>
   <link rel="stylesheet" href="../css/style.css">
    <script src="../js/translator.js"></script>
+
+   <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
+  
 </head>
 <body>
 
@@ -31,18 +36,19 @@
   <!-- Upload Recent Work Section -->
   <div class="section">
     <h3>Upload Recent Work</h3>
-    <form>
-      <label for="workTitle">Work Title:</label>
-      <input type="text" id="workTitle" placeholder="Enter work name"><br>
+    <form id="recentWorkForm">
+  <label for="workTitle">Work Title:</label>
+  <input type="text" id="workTitle" placeholder="Enter work name">
 
-      <label for="workDesc">Description:</label>
-      <textarea id="workDesc" rows="4" placeholder="Write details about the work..."></textarea>
+  <label for="workDesc">Description:</label>
+  <textarea id="workDesc" rows="4" placeholder="Write details about the work..."></textarea>
 
-      <label for="workImage">Select Photo:</label>
-      <input type="file" id="workImage" accept="image/*">
+  <label for="workImage">Select Photo:</label>
+  <input type="file" id="workImage" accept="image/*">
 
-      <button type="submit">Upload Work</button>
-    </form>
+  <button type="submit">Upload Work</button>
+</form>
+
   </div>
 
   <!-- Menu Toggle Script -->
@@ -55,6 +61,75 @@
     });
   </script>
 
+<script>
+  const firebaseConfig = {
+  apiKey: "AIzaSyA8p-2sP6Qav5eyq_ONaima4iskhDWz9mw",
+  authDomain: "e-gram-panchayat-portal.firebaseapp.com",
+  databaseURL: "https://e-gram-panchayat-portal-default-rtdb.firebaseio.com",
+  projectId: "e-gram-panchayat-portal",
+  storageBucket: "e-gram-panchayat-portal.firebasestorage.app",
+  messagingSenderId: "625880846235",
+  appId: "1:625880846235:web:0823cf957adf01ceb85b3e"
+};
+
+firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+
+  // 🔐 Your imgbb API key (for image upload)
+  const imgbbAPIKey = "87a3c2ad5f8e9d4c548f82a8d2b8478f";
+
+  // 🔄 Function to upload image to ImgBB
+  async function uploadToImgBB(file) {
+    const formData = new FormData();
+    formData.append("image", file);
+    const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
+      method: "POST",
+      body: formData
+    });
+    const data = await response.json();
+    return data.data.url;
+  }
+
+  // 🚀 Upload Recent Work Handler
+  document.getElementById("recentWorkForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const title = document.getElementById("workTitle").value.trim();
+  const description = document.getElementById("workDesc").value.trim();
+  const imageFile = document.getElementById("workImage").files[0];
+
+  if (!title || !description || !imageFile) {
+    alert("⚠️ Please fill all fields and select an image.");
+    return;
+  }
+
+  let imageUrl = "";
+  try {
+    imageUrl = await uploadToImgBB(imageFile);
+  } catch (error) {
+    alert("❌ Failed to upload image.");
+    return;
+  }
+
+  try {
+    await db.collection("recetwork").add({
+      title,
+      description,
+      imageUrl,
+      timestamp: firebase.firestore.Timestamp.now()
+    });
+    alert("✅ Recent work uploaded successfully!");
+    e.target.reset();
+  } catch (err) {
+    alert("❌ Firestore error: " + err.message);
+  }
+});
+
+
+
+
+</script>
 
 <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
