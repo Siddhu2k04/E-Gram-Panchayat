@@ -5,17 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>View Complaints | E-Gram Panchayat</title>
   <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/translator.js"></script>
+  <script src="../js/translator.js"></script>
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-     <div id="google_translate_element"></div>
+  <!-- Google Translate -->
+  <div id="google_translate_element"></div>
 
-<header>
-  <h1>E-Gram Panchayat Anurabad</h1>
-</header>
+  <!-- Page Header -->
+  <header>
+    <h1>E-Gram Panchayat Anurabad</h1>
+  </header>
 
-<!-- Header -->
+  <!-- Menu Header -->
   <header class="menu-header">
     <div class="logo">View Complaints</div>
     <button class="menu-toggle" id="menu-btn1">&#9776;</button>
@@ -28,7 +34,7 @@
     </nav>
   </header>
 
-<!-- Menu Toggle Script -->
+  <!-- Menu Toggle Script -->
   <script>
     const menuBtn1 = document.getElementById('menu-btn1');
     const menu1 = document.getElementById('menu1');
@@ -38,47 +44,55 @@
     });
   </script>
 
- 
-
- <!-- Complaints Section -->
+  <!-- Complaints Section -->
   <div class="section" id="complaintsSection">
     <h3>📩 View Complaints</h3>
-
-    <div class="complaint-card">
-      <strong>Name:</strong> Rahul Patil<br>
-      <strong>Email:</strong> rahul@example.com<br>
-      <strong>Description:</strong>
-      <p>There is a leakage in the water pipeline near the main road. Please look into it urgently.</p>
-      <strong>Image:</strong><br>
-      <img src="https://via.placeholder.com/200x120.png?text=Complaint+Image" alt="Complaint Image" width="200">
-      <em>Submitted on: 24 July 2025, 10:32 AM</em>
-    </div>
-
-    <div class="complaint-card">
-      <strong>Name:</strong> Sneha Jadhav<br>
-      <strong>Email:</strong> sneha.jadhav@example.com<br>
-      <strong>Description:</strong>
-      <p>Streetlight near the temple is not working for the last 5 days.</p>
-      <strong>Image:</strong><br>
-      <img src="https://via.placeholder.com/200x120.png?text=Streetlight+Issue" alt="Streetlight Complaint" width="200">
-      <em>Submitted on: 23 July 2025, 07:18 PM</em>
-    </div>
-
-    <div class="complaint-card">
-      <strong>Name:</strong> Vijay Shinde<br>
-      <strong>Email:</strong> vijay.shinde@example.com<br>
-      <strong>Description:</strong>
-      <p>Garbage collection has not been done in Ward 3 for over a week.</p>
-      <strong>Image:</strong><br>
-      <img src="https://via.placeholder.com/200x120.png?text=Garbage+Issue" alt="Garbage Complaint" width="200">
-      <em>Submitted on: 22 July 2025, 04:45 PM</em>
-    </div>
+    <!-- Complaints will load here dynamically -->
   </div>
-
 
   <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
   </footer>
+
+  <script>
+    // ✅ Replace this with your actual Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyC0Wj7L2WpxYFAk0_XXvj0Kxtz_DbqGZHE",
+      authDomain: "e-gram-panchayat-75f4a.firebaseapp.com",
+      projectId: "e-gram-panchayat-75f4a",
+      appId: "1:501188627743:web:c362fa66298786ee6e742a"
+    };
+
+    // ✅ Initialize Firebase App
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ✅ Load Complaints from Firestore
+    db.collection("complaints")
+      .orderBy("timestamp", "desc")
+      .onSnapshot(snapshot => {
+        const section = document.getElementById("complaintsSection");
+
+        // Clear previous content (except heading)
+        section.innerHTML = "<h3>📩 View Complaints</h3>";
+
+        snapshot.forEach(doc => {
+          const c = doc.data();
+          const time = c.timestamp?.toDate().toLocaleString() || "Time not available";
+
+          section.innerHTML += `
+            <div class="complaint-card">
+              <strong>Name:</strong> ${c.name}<br>
+              <strong>Email:</strong> ${c.email}<br>
+              <strong>Description:</strong>
+              <p>${c.description}</p>
+              ${c.imageUrl ? `<strong>Image:</strong><br><img src="${c.imageUrl}" alt="Complaint Image" width="200">` : ''}
+              <em>Submitted on: ${time}</em>
+            </div>
+          `;
+        });
+      });
+  </script>
 
 </body>
 </html>
