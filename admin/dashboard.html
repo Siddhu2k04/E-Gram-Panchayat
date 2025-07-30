@@ -37,6 +37,60 @@
       menu1.classList.toggle('show');
     });
   </script>
+<div class="section admin-guide">
+  <h3>🛠️ Admin Feature Guide</h3>
+  <ul class="admin-tasks">
+    <li>📌 Upload & manage notices (PDF/image)</li>
+    <li>🖼️ Add/update gallery images with captions</li>
+    <li>👥 Add/edit Grampanchayat member details</li>
+    <li>📍 Update office address & contact info</li>
+    <li>📤 View all uploaded notices, members, gallery</li>
+    <li>🗑️ Delete outdated or incorrect data</li>
+    <li>🔐 Admin-only access to manage site content</li>
+    <li>⚙️ Real-time updates on the website</li>
+  </ul>
+</div>
+
+<style>
+  .admin-guide {
+  padding: 20px;
+  background-color: #eef7ff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
+  margin-top: 30px;
+}
+
+.admin-guide h3 {
+  margin-bottom: 10px;
+  color: #007BFF;
+}
+
+.admin-guide p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.admin-tasks {
+  list-style: none;
+  padding-left: 0;
+}
+
+.admin-tasks li {
+  margin-bottom: 10px;
+  padding-left: 25px;
+  position: relative;
+  font-size: 15px;
+}
+
+.admin-tasks li::before {
+  content: "✔️";
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+</style>
 
   <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
