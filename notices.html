@@ -17,7 +17,25 @@
       margin-top: 10px;
       margin-bottom: 20px;
     }
+.download-btn {
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0; /* Center horizontally with top margin */
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
 
+    .download-btn:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -56,11 +74,6 @@
   <div id="noticeBoard" class="notice-list"></div>
 </section>
 
-<style>
-
-
-</style>
-
 <!-- Firebase Script -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -83,7 +96,7 @@
   const q = query(collection(db, "notices"), orderBy("timestamp", "desc"));
   const snapshot = await getDocs(q);
 
-  snapshot.forEach((doc, index) => {
+  snapshot.forEach((doc) => {
     const data = doc.data();
 
     const noticeDiv = document.createElement("div");
@@ -91,13 +104,20 @@
     const title = document.createElement("h3");
     title.classList.add("notice-title");
     title.textContent = data.title;
-    title.addEventListener("click", () => {
-      pdfDiv.style.display = pdfDiv.style.display === "none" ? "block" : "none";
-    });
 
     const pdfDiv = document.createElement("div");
     pdfDiv.classList.add("pdf-container");
-    pdfDiv.innerHTML = `<iframe src="${data.pdf}" width="100%" height="400px" style="border:1px solid #ccc;"></iframe>`;
+
+    // Use iframe for previewing PDF or image
+    pdfDiv.innerHTML = `
+      <iframe src="${data.pdf}" width="100%" height="400px" style="border:1px solid #ccc;"></iframe>
+      <br>
+      <a href="${data.pdf}" download class="download-btn">⬇️ Download Notice</a>
+    `;
+
+    title.addEventListener("click", () => {
+      pdfDiv.style.display = pdfDiv.style.display === "none" ? "block" : "none";
+    });
 
     noticeDiv.appendChild(title);
     noticeDiv.appendChild(pdfDiv);
