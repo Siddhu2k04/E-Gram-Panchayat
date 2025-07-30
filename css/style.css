@@ -1191,5 +1191,262 @@ button[type="submit"]:hover {
     }
 
 
+/*memer display css*/
 
-    
+    .member-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 2 per row on tablets and phones */
+@media (max-width: 992px) {
+  .member-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Force 1 per row on very small screens if needed */
+@media (max-width: 500px) {
+  .member-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.member-card {
+  background-color: #f0fbe6;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%; /* prevent overflow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.member-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #4CAF50;
+  margin-bottom: 15px;
+}
+
+.member-card h4 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member-card p {
+  margin-top: 5px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 90vh; /* Prevents modal from going too tall */
+  overflow-y: auto;  /* Allows scroll if content is long */
+}
+
+#modal-info {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+  margin-top: 10px;
+  text-align: justify;
+  padding: 0 10px;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.modal-content img {
+  width: 220px;     /* Increased size */
+  height: 220px;    /* Keep it square */
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #4CAF50;
+  margin-bottom: 20px;
+}
+@media (max-width: 500px) {
+  .modal-content img {
+    width: 150px;
+    height: 200px;
+  }
+}
+
+
+
+/*upload reecet work list*/
+
+/* Center and style the work list container */
+#recentWorkList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  align-items: center; /* ⬅️ Centers all .work-card items */
+}
+
+/* Each dynamic work card */
+.work-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #f9fff0;
+  border: 1px solid #cce5b5;
+  border-radius: 15px;
+  padding: 15px;
+  gap: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+  width: 100%;
+  max-width: 700px; /* ⬅️ Controls the width and centers neatly */
+}
+
+.work-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Image styling */
+.work-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  border: 2px solid #4CAF50;
+}
+
+/* Info block */
+.work-info {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.work-info h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.work-info p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .work-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .work-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .work-info {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+/*gallery*/
+
+.gallery-item .caption {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 0;
+  color: #333;
+}
+
+
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .work-card {
+    min-width: 250px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .work-card:hover {
+    transform: scale(1.03);
+  }
+
+  .work-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .work-title {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: #f2f2f2;
+  }
+
+  .modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    flex-direction: column;
+  }
+
+  .modal-content {
+    max-width: 90%;
+    max-height: 70%;
+    border-radius: 8px;
+  }
+
+  .close {
+    position: absolute;
+    top: 20px; right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+  }
+
+  #modalCaption {
+    color: white;
+    margin-top: 10px;
+    text-align: center;
+    white-space: pre-wrap;
+    max-width: 90%;
+  }

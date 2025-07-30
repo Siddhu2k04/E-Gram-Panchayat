@@ -51,103 +51,40 @@
 </section>
 
 
-<!-- Modal -->
-<!-- Modal structure -->
+
+
+<!-- Popup HTML -->
+<!-- 🔍 Modal for Popup -->
 <div id="imageModal" class="modal" style="display: none;">
   <span class="close" onclick="closeModal()">&times;</span>
   <img class="modal-content" id="modalImage">
   <div id="modalCaption"></div>
 </div>
-
-
-
-
-
-
-<!-- Script -->
 <style>
-  .scroll-container {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
-    padding: 10px;
-  }
 
-  .work-card {
-    min-width: 250px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform 0.3s;
-  }
 
-  .work-card:hover {
-    transform: scale(1.03);
-  }
-
-  .work-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-
-  .work-title {
-    padding: 10px;
-    font-weight: bold;
-    font-size: 1rem;
-    background-color: #f2f2f2;
-  }
-
-  .modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    flex-direction: column;
-  }
-
-  .modal-content {
-    max-width: 90%;
-    max-height: 70%;
-    border-radius: 8px;
-  }
-
-  .close {
-    position: absolute;
-    top: 20px; right: 30px;
-    font-size: 40px;
-    color: white;
-    cursor: pointer;
-  }
-
-  #modalCaption {
-    color: white;
-    margin-top: 10px;
-    text-align: center;
-    white-space: pre-wrap;
-    max-width: 90%;
-  }
 </style>
 
+
 <script>
-  function openModal(imgUrl, captionText) {
-  const modal = document.getElementById("imageModal");
-  document.getElementById("modalImage").src = imgUrl;
-  document.getElementById("modalCaption").innerText = captionText;
-  modal.style.display = "block";
-}
 
-function closeModal() {
-  document.getElementById("imageModal").style.display = "none";
-}
+  // 🔍 Modal Popup
+  function openModal(imageUrl, title, description) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const modalCaption = document.getElementById("modalCaption");
 
+    modal.style.display = "flex";
+    modalImg.src = imageUrl;
+    modalCaption.innerHTML = `<strong>${title}</strong><br>${description}`;
+  }
+
+  function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+  }
 </script>
+
+
 
 
 
@@ -185,12 +122,13 @@ firebase.initializeApp(firebaseConfig);
          const description = work.description || "No description available";
           const time = work.timestamp?.toDate().toLocaleString() || "";
 
-        gallery.innerHTML += `
-          <div class="gallery-item" onclick="openModal('${imageUrl}', '${title}')">
-            <img src="${imageUrl}" alt="${title}">
-            <div class="caption">${title}</div>
-          </div>
-        `;
+       gallery.innerHTML += `
+  <div class="gallery-item" onclick="openModal('${imageUrl}', '${title}', \`${description}\`)">
+    <img src="${imageUrl}" alt="${title}">
+    <div class="caption">${title}</div>
+  </div>
+`;
+
       });
     });
 </script>
