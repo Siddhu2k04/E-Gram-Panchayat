@@ -17,7 +17,8 @@
  <!-- Firebase Compat SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
-  
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-database-compat.js"></script>
+
 
 </head>
 <body>
@@ -315,11 +316,20 @@ const btn = document.getElementById('menu-btn');
   </div>
 
 <script>
-  let count = localStorage.getItem("visitCount") || 0;
-  count++;
-  localStorage.setItem("visitCount", count);
-  document.getElementById("visitCount").textContent = count;
+  const dbRealtime = firebase.database();
+  const counterRef = dbRealtime.ref("visitCount");
+
+  // Increment the counter safely using a transaction
+  counterRef.transaction(current => {
+    return (current || 0) + 1;
+  });
+
+  // Display the updated count
+  counterRef.on("value", snapshot => {
+    document.getElementById("visitCount").textContent = snapshot.val();
+  });
 </script>
+
 
  <footer>
     &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.
