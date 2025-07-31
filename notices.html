@@ -6,37 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/translator.js"></script>
-  <style>
-    .notice-title {
-      cursor: pointer;
-      color: blue;
-      text-decoration: underline;
-    }
-    .pdf-container {
-      display: none;
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-.download-btn {
-  display: block;
-  width: fit-content;
-  margin: 12px auto 0; /* Center horizontally with top margin */
-  padding: 8px 16px;
-  background-color: #12b939;
-  color: #fff;
-  font-size: 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(107, 207, 235, 0.836);
-}
 
-    .download-btn:hover {
-      background-color: #e7eaed;
-    }
-  </style>
+<style>
+ 
+
+ 
+</style>
+
+
+
 </head>
 <body>
 
@@ -71,10 +49,11 @@
 
 <section class="main-section">
   <h1>📢 Notices</h1>
-  <div id="noticeBoard" class="notice-list"></div>
+  <div class="scroll-box">
+    <div id="noticeBoard" class="notice-list"></div>
+  </div>
 </section>
 
-<!-- Firebase Script -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -100,30 +79,20 @@
     const data = doc.data();
 
     const noticeDiv = document.createElement("div");
+    noticeDiv.classList.add("notice-card");
 
-    const title = document.createElement("h3");
-    title.classList.add("notice-title");
-    title.textContent = data.title;
+    const link = document.createElement("a");
+    link.href = data.pdf;
+    link.textContent = "📄 " + data.title;
+    link.classList.add("notice-title");
+    link.download = "";
+    link.target = "_blank";
 
-    const pdfDiv = document.createElement("div");
-    pdfDiv.classList.add("pdf-container");
-
-    // Use iframe for previewing PDF or image
-    pdfDiv.innerHTML = `
-      <iframe src="${data.pdf}" width="100%" height="400px" style="border:1px solid #ccc;"></iframe>
-      <br>
-      <a href="${data.pdf}" download class="download-btn">⬇️ Download Notice</a>
-    `;
-
-    title.addEventListener("click", () => {
-      pdfDiv.style.display = pdfDiv.style.display === "none" ? "block" : "none";
-    });
-
-    noticeDiv.appendChild(title);
-    noticeDiv.appendChild(pdfDiv);
+    noticeDiv.appendChild(link);
     noticeBoard.appendChild(noticeDiv);
   });
 </script>
+
 
 <footer>
   &copy; 2025 E-Gram Panchayat Anurabad. All rights reserved.

@@ -1450,3 +1450,72 @@ button[type="submit"]:hover {
     white-space: pre-wrap;
     max-width: 90%;
   }
+
+
+
+
+
+   .main-section {
+    text-align: left;
+    padding: 40px 20px;
+  }
+
+  .main-section h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  .scroll-box {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    width: 90%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  .notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: scrollUp 20s linear infinite;
+  }
+
+  .notice-card {
+    padding: 10px 20px;
+    border-radius: 6px;
+    background-color: #e8f4ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .notice-card:hover {
+    transform: scale(1.02);
+  }
+
+  .notice-title {
+    color: #0068d7;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  @keyframes scrollUp {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+  }
+
+  @media (max-width: 600px) {
+    .main-section h1 {
+      font-size: 1.5rem;
+    }
+
+    .notice-title {
+      font-size: 1rem;
+    }
+  }
